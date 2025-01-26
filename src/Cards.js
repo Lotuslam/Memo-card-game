@@ -1,5 +1,6 @@
 import React from "react";
 import Card from "./Card";
+import "./Cards.css";
 
 const Cards = ({ cards, openCards, clearedCards, onCardClick, isDisabled }) => {
   const checkIsFlipped = (index) => openCards.includes(index);

@@ -118,8 +118,7 @@ const Game = () => {
   return (
     <div className="App">
       <header>
-        <h3>Play the Flip Card Game</h3>
-        <div>Select two cards with the same content consecutively to make them vanish.</div>
+        <h4>Play the Card Game</h4>
       </header>
       <Cards
         cards={cards}
