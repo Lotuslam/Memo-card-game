@@ -1,48 +1,40 @@
 import { useEffect, useState, useRef } from "react";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  Button,
-  DialogTitle
-} from "@material-ui/core";
 import Cards from "./Cards";
 
 const uniqueCardsArray = [
-    {
-      type: "Apple",
-      image: require(`./Assets/Imgs/Apple.jpg`)
-    },
-    {
-      type: "Kiwi",
-      image: require(`./Assets/Imgs/Kiwi.png`)
-    },
-    {
-      type: "Orange",
-      image: require(`./Assets/Imgs/orange.png`)
-    },
-    {
-      type: "Banana",
-      image: require(`./Assets/Imgs/Banana.jpg`)
-    },
-    {
-      type: "Pineapple",
-      image: require(`./Assets/Imgs/Pineapple.jpg`)
-    },
-    {
-      type: "Pomogranade",
-      image: require(`./Assets/Imgs/Pomogranade.png`)
-    },
-    {
-        type: "Strawberry",
-        image: require(`./Assets/Imgs/Strawberry.jpg`)
-    },
-    {
-        type: "Mango",
-        image: require(`./Assets/Imgs/Mango.jpg`)
-    }  
-  ];
+  {
+    type: "Apple",
+    image: require(`./Assets/Imgs/Apple.jpg`)
+  },
+  {
+    type: "Kiwi",
+    image: require(`./Assets/Imgs/Kiwi.png`)
+  },
+  {
+    type: "Orange",
+    image: require(`./Assets/Imgs/orange.png`)
+  },
+  {
+    type: "Banana",
+    image: require(`./Assets/Imgs/Banana.jpg`)
+  },
+  {
+    type: "Pineapple",
+    image: require(`./Assets/Imgs/Pineapple.jpg`)
+  },
+  {
+    type: "Pomogranade",
+    image: require(`./Assets/Imgs/Pomogranade.png`)
+  },
+  {
+    type: "Strawberry",
+    image: require(`./Assets/Imgs/Strawberry.jpg`)
+  },
+  {
+    type: "Mango",
+    image: require(`./Assets/Imgs/Mango.jpg`)
+  }
+];
 
 function shuffleCards(array) {
   const length = array.length;
@@ -62,7 +54,7 @@ const Game = () => {
   const [clearedCards, setClearedCards] = useState({});
   const [shouldDisableAllCards, setShouldDisableAllCards] = useState(false);
   const [moves, setMoves] = useState(0);
-  const [showModal, setShowModal] = useState(false);
+  const [showCompletionMessage, setShowCompletionMessage] = useState(false);
   const [bestScore, setBestScore] = useState(
     JSON.parse(localStorage.getItem("bestScore")) || Number.POSITIVE_INFINITY
   );
@@ -73,7 +65,7 @@ const Game = () => {
 
   const checkCompletion = () => {
     if (Object.keys(clearedCards).length === uniqueCardsArray.length) {
-      setShowModal(true);
+      setShowCompletionMessage(true);
       const highScore = Math.min(moves, bestScore);
       setBestScore(highScore);
       localStorage.setItem("bestScore", highScore);
@@ -117,7 +109,7 @@ const Game = () => {
   const handleRestart = () => {
     setClearedCards({});
     setOpenCards([]);
-    setShowModal(false);
+    setShowCompletionMessage(false);
     setMoves(0);
     setShouldDisableAllCards(false);
     setCards(shuffleCards(uniqueCardsArray.concat(uniqueCardsArray)));
@@ -148,24 +140,16 @@ const Game = () => {
           )}
         </div>
         <div className="restart">
-          <Button onClick={handleRestart} color="primary" variant="contained">
+          <button onClick={handleRestart} style={{ backgroundColor: '#3f51b5', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px' }}>
             Restart
-          </Button>
+          </button>
         </div>
       </footer>
-      <Dialog open={showModal} disableBackdropClick disableEscapeKeyDown>
-        <DialogTitle>Hurray!!! You completed the challenge</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            You completed the game in {moves} moves. Your best score is {bestScore} moves.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleRestart} color="primary">
-            Restart
-          </Button>
-        </DialogActions>
-      </Dialog>
+      {showCompletionMessage && (
+        <div style={{ marginTop: '20px', textAlign: 'center', fontWeight: 'bold' }}>
+          Hurray!!! You completed the challenge in {moves} moves. Your best score is {bestScore} moves.
+        </div>
+      )}
     </div>
   );
 };
